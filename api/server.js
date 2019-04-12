@@ -16,5 +16,27 @@ server.get("/games", (req, res) => {
     });
 });
 
+server.post("/games", (req, res) => {
+  const game = req.body;
+
+  db("games")
+    .insert(game)
+    .then(ids => {
+      const id = ids[0];
+      db("games")
+        .where({ id })
+        .then(game => {
+          res.status(201).json(game);
+        });
+    })
+    .catch(error => {
+      res.status(500).json({
+        error: "There was an error while saving the game to the database."
+      });
+    });
+});
+
+
+
 
 module.exports = server;
