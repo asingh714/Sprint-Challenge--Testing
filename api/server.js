@@ -27,13 +27,13 @@ server.post("/games", (req, res) => {
 
   db("games")
     .insert(game)
-    .then(ids => {
+    .then(ids => {      
       const id = ids[0];
       db("games")
         .where({ id })
         .then(game => {
           res.status(201).json(game);
-        });
+        })
     })
     .catch(error => {
       res.status(500).json({
