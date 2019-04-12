@@ -19,6 +19,12 @@ server.get("/games", (req, res) => {
 server.post("/games", (req, res) => {
   const game = req.body;
 
+  if (!game.title || !game.genre) {
+    res.status(422).json({
+      error: "Please provide a title and genre."
+    });
+  }
+
   db("games")
     .insert(game)
     .then(ids => {
@@ -35,8 +41,5 @@ server.post("/games", (req, res) => {
       });
     });
 });
-
-
-
 
 module.exports = server;
